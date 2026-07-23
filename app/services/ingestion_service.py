@@ -75,6 +75,11 @@ class IngestionService:
                 )
             )
 
+            print("=" * 50)
+            print(f"Documents : {len(documents)}")
+            print(f"Chunks    : {len(chunks)}")
+            print(f"Embeddings: {len(embeddings)}")
+            print("=" * 50)
             # -----------------------
             # Store in Vector DB
             # -----------------------
@@ -82,6 +87,11 @@ class IngestionService:
             self.vectordb.add_documents(
                 documents=chunks,
                 embeddings=embeddings
+            )
+
+            print(
+                "Total vectors in DB:",
+                self.vectordb.count()
             )
 
             return {
