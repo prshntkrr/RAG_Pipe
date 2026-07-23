@@ -7,11 +7,13 @@ from app.core.config import settings
 from app.services.s3_service import S3Service
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from app.services.ingestion_service import IngestionService
+from app.vectordb.vectordb_factory import VectorDBFactory
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
 s3_service = S3Service()
 ingestion_service = IngestionService()
+vectordb = VectorDBFactory.get_vectordb()
 
 SUPPORTED_EXTENSIONS = {
     ".pdf",
@@ -21,6 +23,12 @@ SUPPORTED_EXTENSIONS = {
     ".txt"
 }
 
+@router.get("/count")
+def get_vector_count():
+
+    return {
+        "total_vectors": vectordb.count()
+    }
 
 @router.post("/upload")
 async def upload_document(file: UploadFile = File(...)):

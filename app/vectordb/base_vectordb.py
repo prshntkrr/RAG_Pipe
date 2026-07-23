@@ -8,30 +8,30 @@ class BaseVectorDB(ABC):
     @abstractmethod
     def add_documents(
         self,
-        documents: list[Document]
-    ):
-        """
-        Store documents in the vector database.
-        """
+        documents: list[Document],
+        embeddings: list[list[float]]
+    ) -> None:
         pass
 
     @abstractmethod
     def similarity_search(
         self,
-        query: str,
+        embedding: list[float],
         k: int = 5
     ):
-        """
-        Search similar documents.
-        """
         pass
 
     @abstractmethod
     def delete(
         self,
         ids: list[str]
-    ):
-        """
-        Delete documents by IDs.
-        """
+    ) -> None:
+        pass
+
+    @abstractmethod
+    def count(self) -> int:
+        pass
+
+    @abstractmethod
+    def reset(self) -> None:
         pass

@@ -22,5 +22,10 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
+    # Vector Database
+    VECTOR_DB: str
+    CHROMA_PATH: str
+    CHROMA_COLLECTION: str
+
 
 settings = Settings()
