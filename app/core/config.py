@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    OPENAI_API_KEY: str
     # AWS
     AWS_REGION: str
     S3_BUCKET: str
