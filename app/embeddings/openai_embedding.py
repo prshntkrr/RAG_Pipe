@@ -12,7 +12,8 @@ class OpenAIEmbedding(BaseEmbedding):
     def __init__(self):
 
         self.model = OpenAIEmbeddings(
-            model=settings.OPENAI_EMBEDDING_MODEL
+            model=settings.OPENAI_EMBEDDING_MODEL,
+            api_key=settings.OPENAI_API_KEY
         )
 
     def embed_documents(self, documents):
@@ -24,20 +25,7 @@ class OpenAIEmbedding(BaseEmbedding):
 
         vectors = self.model.embed_documents(texts)
 
-        records = []
-
-        for doc, vector in zip(documents, vectors):
-
-            records.append(
-                EmbeddingRecord(
-                    id=str(uuid.uuid4()),
-                    embedding=vector,
-                    document=doc.page_content,
-                    metadata=doc.metadata
-                )
-            )
-
-        return records
+        return vectors
 
     def embed_query(self, query):
 
