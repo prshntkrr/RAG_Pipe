@@ -1,29 +1,26 @@
 class PromptBuilder:
 
     @staticmethod
-    def build(
-        question: str,
-        search_result: dict
-    ):
+    def build(question: str, search_result: dict):
 
         documents = search_result["documents"][0]
 
         context = "\n\n".join(documents)
 
-        prompt = f"""
-You are a helpful AI assistant.
+        return f"""
+            You are an agricultural expert.
 
-Answer ONLY using the following context.
+            Answer ONLY from the provided context.
 
-Context:
+            If the answer is not present in the context, reply:
 
-{context}
+            'I couldn't find this information in the uploaded documents.'
 
-Question:
+            Context:
+            {context}
 
-{question}
+            Question:
+            {question}
 
-Answer:
-"""
-
-        return prompt
+            Answer:
+            """

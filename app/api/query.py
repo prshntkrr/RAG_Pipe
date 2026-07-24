@@ -1,28 +1,31 @@
 from fastapi import APIRouter
 
-from app.llm.openai_service import OpenAIService
 from app.models.query import QueryRequest
-from app.prompts.prompt_builder import PromptBuilder
-from app.retrieval.retriever import Retriever
+from app.models.query_response import QueryResponse
+from app.services.query_service import QueryService
+from app.db.session import get_db
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/query",
+    tags=["Query"]
+)
 
-retriever = Retriever()
-llm = OpenAIService()
 
 
-@router.post("/query")
-def query_document(request: QueryRequest):
+@router.post("/", response_model=QueryResponse)
+def query_document(
+    request: QueryRequest,
+    db: Session = Depends(get_db)
+):
+    query_service = QueryService(db)
 
-    results = retriever.retrieve(request.question)
+    return query_service.ask(request.question)
 
-    prompt = PromptBuilder.build(
-        request.question,
-        results
-    )
+# @router.post("/query")
+# def query_document(request: QueryRequest):
 
-    answer = llm.generate(prompt)
+#     results = retriever.retrieve(request.question)
 
-    return {
-        "answer": answer
-    }
+#     return results

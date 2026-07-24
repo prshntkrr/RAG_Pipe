@@ -6,13 +6,8 @@ class Retriever:
 
     def __init__(self):
 
-        self.embedding_service = (
-            EmbeddingFactory.get_embedding()
-        )
-
-        self.vectordb = (
-            VectorDBFactory.get_vectordb()
-        )
+        self.embedding_service = EmbeddingFactory.get_embedding()
+        self.vectordb = VectorDBFactory.get_vectordb()
 
     def retrieve(
         self,
@@ -20,10 +15,16 @@ class Retriever:
         k: int = 3
     ):
 
-        # Step 1: Convert the user's question into an embedding
         query_embedding = self.embedding_service.embed_query(query)
 
-        print(f"Query: {query}")
-        print(f"Embedding dimension: {len(query_embedding)}")
+        # print(f"Query: {query}")
+        # print(f"Embedding dimension: {len(query_embedding)}")
 
-        return query_embedding
+        results = self.vectordb.similarity_search(
+            embedding=query_embedding,
+            k=k
+        )
+
+        # print(results)
+
+        return results

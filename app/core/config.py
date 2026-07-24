@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     # Local Storage
     TEMP_DIR: str = "temp"
 
+    # Database
+    DATABASE_URL: str
+
     # Embedding
     EMBEDDING_PROVIDER: str
     OPENAI_EMBEDDING_MODEL: str
